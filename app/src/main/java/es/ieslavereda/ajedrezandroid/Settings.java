@@ -8,12 +8,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.RadioButton;
 
-import java.io.Serializable;
-
 public class Settings extends AppCompatActivity implements View.OnClickListener {
 
     private RadioButton classic, bosque, med, marino;
-    private Button guardar;
+    private Button caca;
     private Tablero tablero;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,11 +22,11 @@ public class Settings extends AppCompatActivity implements View.OnClickListener 
         bosque=findViewById(R.id.bosque);
         med=findViewById(R.id.medieval);
         marino=findViewById(R.id.marino);
-        guardar=findViewById(R.id.guardar);
+        caca =findViewById(R.id.guardar);
         tablero=findViewById(R.id.tablero3);
 
 
-        guardar.setOnClickListener(view -> {
+        caca.setOnClickListener(view -> {
             Intent i = new Intent();
             if (bosque.isChecked())
                 i.putExtra("n", 1);
