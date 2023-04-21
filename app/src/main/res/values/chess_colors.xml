@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black_piece">#FF000000</color>
+    <color name="white_piece">#FFFFFFFF</color>
+    <color name="white_cell">#E5BA73</color>
+    <color name="black_cell">#395144</color>
+    <color name="white_move">#76ED73</color>
+    <color name="black_move">#48BF3A</color>
+    <color name="white_cell_enemy">#F44336</color>
+    <color name="black_cell_enemy">#B1150A</color>
+    <color name="checked_cell">#AA4EB7BC</color>
+    <color name="white_lastMove">#AA70ABF4</color>
+    <color name="black_lastMove">#AA1558BD</color>
+</resources>

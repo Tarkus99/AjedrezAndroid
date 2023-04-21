@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="bosque_white"> #119855</color>
+    <color name="bosque_black"> #6d470b </color>
+
+    <color name="medieval_white">#E5BA73</color>
+    <color name="medieval_black">#395144</color>
+
+    <color name="marino_white"> #3667f5 </color>
+    <color name="marino_black"> #07226f </color>
+</resources>
