@@ -7,24 +7,30 @@ import java.util.stream.Collectors;
 
 import static com.diogonunes.jcolor.Ansi.colorize;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
 public class Tablero extends TableLayout implements Serializable {
     private Map<Coordenada, Celda> cellsMap;
+    private int idDeadWhite;
+    private int idDeadBlack;
     //private IDeletePieceManager deletePieceManager;
 
     public Tablero(Context context, AttributeSet attributeSet) {
         super(context, attributeSet);
         this.cellsMap = new HashMap<>();
-
+        idDeadWhite = 1;
+        idDeadBlack = 20;
+        addDeadCamp(1);
         addTextViews();
 
         TableRow row;
@@ -42,6 +48,7 @@ public class Tablero extends TableLayout implements Serializable {
             addView(row);
         }
         addTextViews();
+        addDeadCamp(20);
         rellenarTablero();
     }
 
@@ -56,6 +63,51 @@ public class Tablero extends TableLayout implements Serializable {
         row.addView(getTextView(""));
 
         addView(row);
+    }
+    @SuppressLint("ResourceAsColor")
+    public void addDeadCamp(int campo){
+        TableRow tableRowAux = new TableRow(getContext());
+        addView(tableRowAux);
+        int id = campo+0;
+        TextView tx = getTextView("");
+        tx.setBackgroundColor(R.color.white);
+        tableRowAux.addView(tx);
+        for (int x = 0;x<8;x++){
+            tableRowAux.addView(addCamp(id));
+            id++;
+        }
+        tx = getTextView("");
+        tx.setBackgroundColor(R.color.white);
+        tableRowAux.addView(tx);
+        tableRowAux = new TableRow(getContext());
+        addView(tableRowAux);
+        tx = getTextView("");
+        tx.setBackgroundColor(R.color.white);
+        tableRowAux.addView(tx);
+        for (int x = 0;x<8;x++){
+            tableRowAux.addView(addCamp(id));
+            id++;
+        }
+        tx = getTextView("");
+        tx.setBackgroundColor(R.color.white);
+        tableRowAux.addView(tx);
+    }
+
+    @SuppressLint("ResourceType")
+    public ImageView addCamp(int id){
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        ((Activity) getContext()).getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+        int widh = displayMetrics.widthPixels;
+        ImageView exit = new ImageView(getContext());
+        exit.setMaxHeight(widh/10);
+        exit.setMinimumHeight(widh/10);
+        exit.setMaxWidth(widh/10);
+        exit.setMinimumWidth(widh/10);
+        exit.setPadding(0,0,0,0);
+        exit.setScaleType(ImageView.ScaleType.FIT_CENTER);
+        exit.setAdjustViewBounds(true);
+        exit.setId(id);
+        return exit;
     }
 
     private TextView getTextView(String text) {
@@ -134,6 +186,18 @@ public class Tablero extends TableLayout implements Serializable {
             new PeonNegro(getCelda(new Coordenada((char)i,2)));
     }
 
+    public int getIdDeadBlack() {
+        int id = idDeadBlack;
+        idDeadBlack++;
+        return id;
+    }
+
+    public int getIdDeadWhite() {
+        int id = idDeadWhite;
+        idDeadWhite++;
+        return id;
+    }
+
     public Map<Coordenada, Celda> getCellsMap() {
         return cellsMap;
     }
@@ -178,7 +242,6 @@ public class Tablero extends TableLayout implements Serializable {
                 .map(Celda::getPiece)
                 .filter((p) -> p != null && p.getColor() == colorAux)
                 .collect(Collectors.toList());
-
     }
 
     public boolean movesAliadosVacios(Color color) {

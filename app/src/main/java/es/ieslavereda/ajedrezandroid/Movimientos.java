@@ -1,5 +1,7 @@
 package es.ieslavereda.ajedrezandroid;
 
+import android.widget.ImageView;
+
 /**
  * Clase para mover las piezas sobre el tablero.
  */
@@ -18,6 +20,11 @@ public class Movimientos {
             p.celda = t.getCelda(nuevaPosicion);
             t.getCelda(nuevaPosicion).setPieza(p);
         } else {
+            if (t.getCelda(nuevaPosicion).getPiece().getColor()==Color.WHITE) {
+                ((ImageView) t.findViewById(t.getIdDeadWhite())).setImageResource(t.getCelda(nuevaPosicion).getPiece().getType().forma);
+            }else {
+                ((ImageView) t.findViewById(t.getIdDeadBlack())).setImageResource(t.getCelda(nuevaPosicion).getPiece().getType().forma);
+            }
             t.getCelda(celda.getCoordenada()).setPieza(null);
             //t.getManager().addPiece(t.getCelda(nuevaPosicion).getPiece());
             p.celda = t.getCelda(nuevaPosicion);
