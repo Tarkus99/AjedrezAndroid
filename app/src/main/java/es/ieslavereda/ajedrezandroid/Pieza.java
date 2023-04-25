@@ -2,15 +2,26 @@ package es.ieslavereda.ajedrezandroid;
 
 import java.io.Serializable;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 import static com.diogonunes.jcolor.Ansi.colorize;
+
+import androidx.annotation.Nullable;
 
 /**
  * Clase abstracta que gestiona el comportamiento común de todas las piezas del ajedrez.
  * @author genguidanosn
  */
-public abstract class Pieza implements Serializable {
+public abstract class Pieza implements Serializable, Comparable<Pieza> {
+
+    @Override
+    public int compareTo(Pieza pieza) {
+        if (this.getValor()==pieza.getValor()){
+            return this.getType().nombre.compareTo(pieza.getType().nombre);
+        }
+        return pieza.getValor()-this.getValor();
+    }
 
     /**
      * Celda sobre la que está una pieza.
@@ -106,8 +117,9 @@ public abstract class Pieza implements Serializable {
     /**
      * Método que mueve la pieza a una nueva posición.
      * @param nuevaPosicion nueva coordenada dónde mover la pieza.
+     * @param visor
      */
-    public abstract void moveTo(Coordenada nuevaPosicion);
+    public abstract void moveTo(Coordenada nuevaPosicion, VisorPiezasMuertas visor);
 
     /**
      * Método para deshacer un movimiento. útil para verificar el método complexMoves()
@@ -129,7 +141,17 @@ public abstract class Pieza implements Serializable {
             t.getCelda(origen).setPieza(this);
         }
     }
-//    @Override
+
+    @Override
+    public boolean equals(@Nullable Object obj) {
+        if (obj instanceof Pieza){
+            Pieza aux = (Pieza)obj;
+            return this.forma==aux.forma;
+        }
+        return false;
+    }
+
+    //    @Override
 //    public String toString() {
 //        return colorize(forma.toString(), forma.color.getColor(), celda.getColor().attribute);
 //    }
@@ -139,23 +161,20 @@ public abstract class Pieza implements Serializable {
      */
     public enum PieceType {
 
-        BLACK_PEON(R.mipmap.ic_b_peon_foreground, Color.BLACK, "peón",1),
-        BLACK_ALFIL(R.mipmap.ic_b_alfil_foreground, Color.BLACK, "alfil",3),
-        BLACK_CABALLO(R.mipmap.ic_b_caballo_foreground, Color.BLACK, "caballo",3),
-        BLACK_TORRE(R.mipmap.ic_b_torre_foreground, Color.BLACK, "torre",5),
-        BLACK_REINA(R.mipmap.ic_b_reina_foreground, Color.BLACK, "reina",9),
-        BLACK_REY(R.mipmap.ic_b_rey_foreground, Color.BLACK, "rey",0),
-        WHITE_PEON(R.mipmap.ic_w_peon_foreground, Color.WHITE, "peón",1),
-        WHITE_ALFIL(R.mipmap.ic_w_alfil_foreground, Color.WHITE, "alfil",3),
-        WHITE_CABALLO(R.mipmap.ic_w_caballo_foreground, Color.WHITE, "caballo",3),
-        WHITE_TORRE(R.mipmap.ic_w_torre_foreground, Color.WHITE, "torre",5),
-        WHITE_REINA(R.mipmap.ic_w_reina_foreground, Color.WHITE, "reina",9),
-        WHITE_REY(R.mipmap.ic_w_rey_foreground, Color.WHITE, "rey",0);
+        BLACK_PEON(R.mipmap.ic_b_peon_foreground, Color.BLACK, "peón",1, '\u265F'),
+        BLACK_ALFIL(R.mipmap.ic_b_alfil_foreground, Color.BLACK, "alfil",3, '\u265D'),
+        BLACK_CABALLO(R.mipmap.ic_b_caballo_foreground, Color.BLACK, "caballo",3,'\u265E'),
+        BLACK_TORRE(R.mipmap.ic_b_torre_foreground, Color.BLACK, "torre",5, '\u265C'),
+        BLACK_REINA(R.mipmap.ic_b_reina_foreground, Color.BLACK, "reina",9, '\u265B'),
+        BLACK_REY(R.mipmap.ic_b_rey_foreground, Color.BLACK, "rey",0, '\u265A'),
+        WHITE_PEON(R.mipmap.ic_w_peon_foreground, Color.WHITE, "peón",1, '\u265F'),
+        WHITE_ALFIL(R.mipmap.ic_w_alfil_foreground, Color.WHITE, "alfil",3, '\u265D'),
+        WHITE_CABALLO(R.mipmap.ic_w_caballo_foreground, Color.WHITE, "caballo",3, '\u265E'),
+        WHITE_TORRE(R.mipmap.ic_w_torre_foreground, Color.WHITE, "torre",5, '\u265C'),
+        WHITE_REINA(R.mipmap.ic_w_reina_foreground, Color.WHITE, "reina",9, '\u265B'),
+        WHITE_REY(R.mipmap.ic_w_rey_foreground, Color.WHITE, "rey",0, '\u265A');
 
         //Atributos
-        /**
-         * Carácter de la tabla UNICODE que representa visualmente la forma.
-         */
         int forma;
         /**
          * Color de la forma
@@ -169,23 +188,27 @@ public abstract class Pieza implements Serializable {
          * Valor en puntos de la pieza según el reglamento del ajedrez.
          */
         int valor;
+        char unicode;
 
         /**
          * Constructor de PieceType
-         * @param shape carácter UNICODE representativo de la forma.
          * @param c color en el cual se imprimirá por pantalla la forma.
          * @param nombre texto descriptivo de la forma.
          * @param valor puntos que vale cada pieza.
          */
-        PieceType(int shape, Color c, String nombre, int valor) {
+        PieceType(int shape, Color c, String nombre, int valor, char unicode) {
             forma = shape;
             color = c;
             this.nombre = nombre;
             this.valor = valor;
+            this.unicode=unicode;
         }
 
         public int getForma(){
             return forma;
+        }
+        public char getUnicode(){
+            return unicode;
         }
 
         @Override

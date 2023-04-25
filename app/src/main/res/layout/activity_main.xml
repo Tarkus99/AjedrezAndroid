@@ -5,35 +5,70 @@
     android:id="@+id/caca"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#B8850E"
     tools:context=".MainActivity">
+
+    <es.ieslavereda.ajedrezandroid.VisorPiezasMuertas
+        android:id="@+id/blackDeads"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginBottom="32dp"
+        android:background="#EDB0B0"
+        android:gravity="center"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@+id/board"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"></es.ieslavereda.ajedrezandroid.VisorPiezasMuertas>
 
     <es.ieslavereda.ajedrezandroid.Tablero
         android:id="@+id/board"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="#F8D7D7"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"></es.ieslavereda.ajedrezandroid.Tablero>
+
+    <EditText
+        android:id="@+id/puntW"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/teal_200"
+        android:textSize="24dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/board" />
+
+    <es.ieslavereda.ajedrezandroid.VisorPiezasMuertas
+        android:id="@+id/whiteDeads"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="#EDB0B0"
+        android:gravity="center"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/puntW"></es.ieslavereda.ajedrezandroid.VisorPiezasMuertas>
+
+    <EditText
+        android:id="@+id/puntB"
+        android:textColor="@color/teal_200"
+        android:textSize="24dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@+id/blackDeads"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
-        android:text="TextView"
+        android:text=""
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <TextView
-        android:id="@+id/txtTime"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="712dp"
-        android:text="bfghndf"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

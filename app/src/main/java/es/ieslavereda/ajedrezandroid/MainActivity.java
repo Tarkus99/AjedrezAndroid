@@ -3,25 +3,22 @@ package es.ieslavereda.ajedrezandroid;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.concurrent.Executor;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     private Tablero board;
-    private TextView textView, txtTime;
+    private TextView textView;
+    private EditText puntB,puntW;
 
     private Pieza piezaActual;
 
     private Color turno;
+    private VisorPiezasMuertas deadWhites;
+    private VisorPiezasMuertas deadBlacks;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,10 +27,33 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         board = findViewById(R.id.board);
         textView = findViewById(R.id.textView);
-        txtTime = findViewById(R.id.txtTime);
         turno = Color.WHITE;
+        puntB = findViewById(R.id.puntB);
+        puntW= findViewById(R.id.puntW);
+        deadWhites = findViewById(R.id.whiteDeads);
+        deadWhites.setColor(getResources().getColor(R.color.black_piece));
+        deadBlacks = findViewById(R.id.blackDeads);
+        deadBlacks.setColor(getResources().getColor(R.color.white_piece));
 
         board.setCellListener(this);
+        int flag = (int)getIntent().getExtras().getSerializable("colorF");
+        if (flag==0){
+            deadBlacks.setBackgroundColor(getColor(R.color.classic_visor));
+            deadWhites.setBackgroundColor(getColor(R.color.classic_visor));
+        }else if (flag==1){
+            board.changeColor(R.color.bosque_black, R.color.bosque_white);
+            deadBlacks.setBackgroundColor(getColor(R.color.bosque_visor));
+            deadWhites.setBackgroundColor(getColor(R.color.bosque_visor));
+        }else if (flag==2){
+            board.changeColor(R.color.medieval_black, R.color.medieval_white);
+            deadBlacks.setBackgroundColor(getColor(R.color.medieval_visor));
+            deadWhites.setBackgroundColor(getColor(R.color.medieval_visor));
+        }else{
+            board.changeColor(R.color.marino_black, R.color.marino_white);
+            deadBlacks.setBackgroundColor(getColor(R.color.marino_visor));
+            deadWhites.setBackgroundColor(getColor(R.color.marino_visor));
+        }
+        board.updateCells();
     }
 
     @SuppressLint("SetTextI18n")
@@ -44,23 +64,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (view instanceof Celda) {
                 Celda c = (Celda) view;
                 if (esCeldaConPiezaDelTurno(c)) {
-                    if (piezaActual != null)
-                        board.desResaltarTablero(piezaActual.getComplexMoves());
+                    if (piezaActual!=null)
+                        board.resetColors(piezaActual.getComplexMoves());
                     seleccionarPieza(c);
                 } else {
                     if (piezaActual != null) {
                         if (esMovimientoValido(c)) {
-                            piezaActual.moveTo(c.getCoordenada());
+                            piezaActual.moveTo(c.getCoordenada(), getVisor(turno));
+                            turno = turno.next();
+                            if (board.estaMateColor(turno))
+                                textView.setText(turno.toString() + " pierden por jaque mate");
                         } else {
-                            board.resetColors();
+                            board.resetColors(piezaActual.getComplexMoves());
                         }
                         piezaActual = null;
-                        turno = turno.next();
-                        if (board.estaMateColor(turno))
-                            textView.setText(turno.toString() + " pierden por jaque mate");
                     }
                 }
             }
+            setPuntuacion();
         }
     }
 
@@ -77,63 +98,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         return c.getPiece() != null && c.getPiece().getColor() == turno;
     }
 
-    private class Timer {
-        private int time;
-        //private Partida partida;
-        Integer min;
-        Integer seg;
-        Integer centSeg;
-        private boolean exit;
+    public VisorPiezasMuertas getVisor(Color c){
+        if (c==Color.WHITE)
+            return deadWhites;
+        return deadBlacks;
+    }
 
-        public Timer(int time) {
-            this.time = time;
-            //partida = p;
-            exit = false;
-        }
+    public void setPuntuacion(){
+        int w = deadWhites.getAllValor();
+        int b = deadBlacks.getAllValor();
+        puntB.setText("");
+        puntW.setText("");
 
-        public void start() {
-            run();
-        }
-
-        public void stop() {
-            parar();
-        }
-
-        public void parar() {
-            exit = true;
-        }
-
-        public void run() {
-            int a = (min == null) ? time : min;
-            int b = (seg == null) ? 0 : seg;
-            int c = (centSeg == null) ? 0 : centSeg;
-            int i = a;
-            while (i >= 0 && !exit) {
-                //minutos.setText("" + i);
-                int j = b;
-                while (j >= 0 && !exit) {
-                    //segundos.setText("" + j);
-                    int k = c;
-                    while (k >= 0 && !exit) {
-                        seg = j;
-                        min = i;
-                        centSeg = k;
-                        // centesimas.setText((k < 10) ? 0 + "" + k : "" + k);
-                        try {
-                            Thread.sleep(10);
-                        } catch (InterruptedException e) {
-                            throw new RuntimeException(e);
-                        }
-                        k--;
-                    }
-                    c = 99;
-                    j--;
-                }
-                b = 59;
-                i--;
-            }
-//            if (!exit)
-//                partida.finish();
-        }
+        if (w>b)
+            puntW.setText("+" + (w-b));
+        else if (b>w)
+            puntB.setText("+" + (b-w));
     }
 }

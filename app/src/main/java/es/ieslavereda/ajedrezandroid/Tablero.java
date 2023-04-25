@@ -1,14 +1,12 @@
 package es.ieslavereda.ajedrezandroid;
 
-import com.diogonunes.jcolor.Attribute;
 import java.io.Serializable;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static com.diogonunes.jcolor.Ansi.colorize;
-
 import android.app.Activity;
 import android.content.Context;
+import android.content.res.Resources;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
@@ -26,7 +24,6 @@ public class Tablero extends TableLayout implements Serializable {
         this.cellsMap = new HashMap<>();
 
         addTextViews();
-
         TableRow row;
         for (int r = 0; r <= 7; r++) {
             row = new TableRow(getContext());
@@ -78,7 +75,6 @@ public class Tablero extends TableLayout implements Serializable {
         return txtView;
     }
 
-
     public void quitarPiezas(){
         for (Celda c: cellsMap.values()) {
             c.setPieza(null);
@@ -102,10 +98,6 @@ public class Tablero extends TableLayout implements Serializable {
         for (Celda c:cellsMap.values()) {
             c.updateCellView();
         }
-    }
-
-    public void cambiarColores(int colorsRes){
-
     }
 
     private void rellenarTablero() {
@@ -134,10 +126,6 @@ public class Tablero extends TableLayout implements Serializable {
             new PeonNegro(getCelda(new Coordenada((char)i,2)));
     }
 
-    public Map<Coordenada, Celda> getCellsMap() {
-        return cellsMap;
-    }
-
     public Celda getCelda(Coordenada coordenada) {
         return cellsMap.get(coordenada);
     }
@@ -151,11 +139,6 @@ public class Tablero extends TableLayout implements Serializable {
             getCelda(c).resaltar();
     }
 
-    public void desResaltarTablero(Set<Coordenada> aux){
-        for (Coordenada c : aux)
-            getCelda(c).resetColor();
-    }
-
     public void resaltarTableroOne(Coordenada c){
         getCelda(c).resaltarJaque();
     }
@@ -165,6 +148,13 @@ public class Tablero extends TableLayout implements Serializable {
             c.resetColor();
         }
     }
+
+    public void resetColors(Set<Coordenada> set){
+        for (Coordenada c:set) {
+            getCelda(c).resetColor();
+        }
+    }
+
 
     public List<Pieza> piezasEnemigas(Color colorAux) { //Devolver en una lista las fichas del color contrario al del parametro
         return cellsMap.values().stream()
@@ -266,7 +256,7 @@ public class Tablero extends TableLayout implements Serializable {
 
         if (piezaAux instanceof Torre) {
             if (piezaAux.getColor() == color) {
-                return !((Torre) (piezaAux)).seHaMovido();
+                return !((Torre)(piezaAux)).seHaMovido();
             }
         }
         return false;
