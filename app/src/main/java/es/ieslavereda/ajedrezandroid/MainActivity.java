@@ -21,8 +21,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private boolean abandono;
 
     private Color turno;
-    private VisorPiezasMuertas deadWhites;
-    private VisorPiezasMuertas deadBlacks;
+    public static VisorPiezasMuertas deadWhites;
+    public static VisorPiezasMuertas deadBlacks;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,8 +44,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         revancha.setOnClickListener(view -> {
             turno = Color.WHITE;
             abandono=false;
-            deadWhites.removeAllViews();
-            deadBlacks.removeAllViews();
+            textView.setText("");
+            deadWhites.inicializar();
+            deadBlacks.inicializar();
             puntB.setText("");
             puntW.setText("");
             revancha.setVisibility(View.GONE);
@@ -93,7 +94,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 } else {
                     if (piezaActual != null) {
                         if (esMovimientoValido(c)) {
-                            piezaActual.moveTo(c.getCoordenada(), getVisor(turno));
+                            piezaActual.moveTo(c.getCoordenada());
                             turno = turno.next();
                             if (board.estaMateColor(turno)) {
                                 textView.setText(turno.toString() + " pierden por jaque mate");
@@ -123,7 +124,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         return c.getPiece() != null && c.getPiece().getColor() == turno;
     }
 
-    public VisorPiezasMuertas getVisor(Color c){
+    public static VisorPiezasMuertas getVisor(Color c){
         if (c==Color.WHITE)
             return deadWhites;
         return deadBlacks;

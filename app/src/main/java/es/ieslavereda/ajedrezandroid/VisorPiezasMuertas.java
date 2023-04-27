@@ -34,6 +34,10 @@ public class VisorPiezasMuertas extends LinearLayout {
     public void setColor(int c){
         color = c;
     }
+    public void inicializar(){
+        piezaList.clear();
+        this.removeAllViews();
+    }
     public void addPiece(Pieza q) {
         piezaList.add(q);
         piezaList.sort(Pieza::compareTo);
@@ -48,10 +52,6 @@ public class VisorPiezasMuertas extends LinearLayout {
         TextView txtView = new TextView(getContext());
 
         txtView.setText(text);
-//        txtView.setTextColor(getResources().getColor(R.color.white_piece, getContext().getTheme()));
-//        txtView.setBackgroundColor(getResources().getColor(R.color.black_piece, getContext().getTheme()));
-//        txtView.setWidth(widh / 10);
-//        txtView.setHeight(widh / 10);
         txtView.setTextSize(32);
         txtView.setGravity(Gravity.CENTER);
         txtView.setTextColor(color);

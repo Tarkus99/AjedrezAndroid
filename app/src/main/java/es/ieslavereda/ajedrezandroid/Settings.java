@@ -28,7 +28,6 @@ public class Settings extends AppCompatActivity implements View.OnClickListener 
         med=findViewById(R.id.medieval);
         marino=findViewById(R.id.marino);
         save=findViewById(R.id.guardar);
-        guardar =findViewById(R.id.guardar);
         tablero=findViewById(R.id.tablero3);
 
 
