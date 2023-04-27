@@ -42,6 +42,13 @@ public class Tablero extends TableLayout implements Serializable {
         rellenarTablero();
     }
 
+    public void inicializar(){
+        for (Celda c:cellsMap.values()) {
+            c.setPieza(null);
+        }
+        rellenarTablero();
+    }
+
     private void addTextViews() {
         TableRow row;
         row = new TableRow(getContext());

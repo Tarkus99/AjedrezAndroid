@@ -6,6 +6,7 @@ import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -14,7 +15,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private TextView textView;
     private EditText puntB,puntW;
 
+    private ImageButton revancha;
     private Pieza piezaActual;
+
+    private boolean abandono;
 
     private Color turno;
     private VisorPiezasMuertas deadWhites;
@@ -34,6 +38,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         deadWhites.setColor(getResources().getColor(R.color.black_piece));
         deadBlacks = findViewById(R.id.blackDeads);
         deadBlacks.setColor(getResources().getColor(R.color.white_piece));
+        revancha = findViewById(R.id.revancha);
+        revancha.setVisibility(View.GONE);
+
+        revancha.setOnClickListener(view -> {
+            turno = Color.WHITE;
+            abandono=false;
+            deadWhites.removeAllViews();
+            deadBlacks.removeAllViews();
+            puntB.setText("");
+            puntW.setText("");
+            revancha.setVisibility(View.GONE);
+            board.resetColors();
+            board.inicializar();
+        });
 
         board.setCellListener(this);
         int flag = (int)getIntent().getExtras().getSerializable("colorF");
@@ -59,21 +77,28 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @SuppressLint("SetTextI18n")
     @Override
     public void onClick(View view) {
-        if (!board.estaMateColor(turno)) {
-
+        if (!board.estaMateColor(turno) && !abandono) {
             if (view instanceof Celda) {
                 Celda c = (Celda) view;
                 if (esCeldaConPiezaDelTurno(c)) {
                     if (piezaActual!=null)
-                        board.resetColors(piezaActual.getComplexMoves());
+                        if (c.getPiece().equals(piezaActual) && piezaActual instanceof Rey) {
+                            abandono = true;
+                            textView.setText(turno.toString() + " se han  rendido.");
+                            revancha.setVisibility(View.VISIBLE);
+                        }
+                        else
+                            board.resetColors(piezaActual.getComplexMoves());
                     seleccionarPieza(c);
                 } else {
                     if (piezaActual != null) {
                         if (esMovimientoValido(c)) {
                             piezaActual.moveTo(c.getCoordenada(), getVisor(turno));
                             turno = turno.next();
-                            if (board.estaMateColor(turno))
+                            if (board.estaMateColor(turno)) {
                                 textView.setText(turno.toString() + " pierden por jaque mate");
+                                revancha.setVisibility(View.VISIBLE);
+                            }
                         } else {
                             board.resetColors(piezaActual.getComplexMoves());
                         }

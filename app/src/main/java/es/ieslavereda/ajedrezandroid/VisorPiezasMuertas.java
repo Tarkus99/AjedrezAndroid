@@ -43,11 +43,6 @@ public class VisorPiezasMuertas extends LinearLayout {
         }
     }
 
-    public List<Pieza> getPiezaList() {
-        return piezaList;
-    }
-
-
     private TextView getTextView(String text) {
 
         TextView txtView = new TextView(getContext());
