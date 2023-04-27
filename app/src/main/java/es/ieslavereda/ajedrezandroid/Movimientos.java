@@ -9,9 +9,10 @@ public class Movimientos {
      * @param p pieza que se quiere mover.
      * @param nuevaPosicion coordenada a donde se quiere mover la pieza.
      */
-    public static void moveTo(Pieza p, Coordenada nuevaPosicion) {
+    public static void moveTo(Pieza p, Coordenada nuevaPosicion, VisorPiezasMuertas visor) {
         Tablero t = p.getCelda().getTablero();
         Celda celda = p.getCelda();
+        Pieza enemiga;
 
         if (t.getCelda(nuevaPosicion).isEmpty()) {
             t.getCelda(celda.getCoordenada()).setPieza(null);
@@ -20,6 +21,8 @@ public class Movimientos {
         } else {
             t.getCelda(celda.getCoordenada()).setPieza(null);
             //t.getManager().addPiece(t.getCelda(nuevaPosicion).getPiece());
+            enemiga = t.getCelda(nuevaPosicion).getPiece();
+            visor.addPiece(enemiga);
             p.celda = t.getCelda(nuevaPosicion);
             t.getCelda(nuevaPosicion).getPiece().celda = null;
             t.getCelda(nuevaPosicion).setPieza(p);
@@ -62,8 +65,8 @@ public class Movimientos {
         Coordenada coordenadaTorre;
         Pieza torreCorta = t.getCelda(new Coordenada('h', origen.getRow())).getPiece();
         coordenadaTorre = torreCorta.getCelda().getCoordenada();
-        Movimientos.moveTo(p, origen.casillaRight().casillaRight());
-        Movimientos.moveTo(torreCorta, coordenadaTorre.casillaLeft().casillaLeft());
+        Movimientos.moveTo(p, origen.casillaRight().casillaRight(), null);
+        Movimientos.moveTo(torreCorta, coordenadaTorre.casillaLeft().casillaLeft(), null);
     }
 
     /**
@@ -77,7 +80,7 @@ public class Movimientos {
         Coordenada coordenadaTorre;
         Pieza torreLarga = t.getCelda(new Coordenada('a', origen.getRow())).getPiece();
         coordenadaTorre = torreLarga.getCelda().getCoordenada();
-        Movimientos.moveTo(p, origen.casillaLeft().casillaLeft());
-        Movimientos.moveTo(torreLarga, coordenadaTorre.casillaRight().casillaRight().casillaRight());
+        Movimientos.moveTo(p, origen.casillaLeft().casillaLeft(), null);
+        Movimientos.moveTo(torreLarga, coordenadaTorre.casillaRight().casillaRight().casillaRight(), null);
     }
 }

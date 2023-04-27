@@ -13,9 +13,9 @@ public class Rey extends Pieza {
     }
 
     @Override
-    public void moveTo(Coordenada nuevaPosición) {
+    public void moveTo(Coordenada nuevaPosición, VisorPiezasMuertas visor) {
         if (movido || !nuevaPosición.esEnroque(getCelda().getCoordenada())) {
-            Movimientos.moveTo(this, nuevaPosición);
+            Movimientos.moveTo(this, nuevaPosición, visor);
         } else if (nuevaPosición.esEnroqueCorto(getCelda().getCoordenada())) {
             Movimientos.enrocarseCorto(this);
         } else {

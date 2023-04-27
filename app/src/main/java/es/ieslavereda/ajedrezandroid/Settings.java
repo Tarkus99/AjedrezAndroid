@@ -6,12 +6,17 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.RadioButton;
+
+import java.io.Serializable;
+import java.util.concurrent.CancellationException;
 
 public class Settings extends AppCompatActivity implements View.OnClickListener {
 
     private RadioButton classic, bosque, med, marino;
-    private Button guardar;
+    private ImageButton save;
+
     private Tablero tablero;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,20 +27,26 @@ public class Settings extends AppCompatActivity implements View.OnClickListener 
         bosque=findViewById(R.id.bosque);
         med=findViewById(R.id.medieval);
         marino=findViewById(R.id.marino);
+        save=findViewById(R.id.guardar);
         guardar =findViewById(R.id.guardar);
         tablero=findViewById(R.id.tablero3);
 
 
-        guardar.setOnClickListener(view -> {
+        save.setOnClickListener(view -> {
             Intent i = new Intent();
-            if (bosque.isChecked())
-                i.putExtra("n", 1);
-            else if(med.isChecked())
-                i.putExtra("n", 2);
-            else
-                i.putExtra("n", 3);
-            setResult(RESULT_OK, i);
-            finish();
+            if (classic.isChecked()){
+                setResult(RESULT_CANCELED);
+                finish();
+            }else {
+                if (bosque.isChecked())
+                    i.putExtra("n", 1);
+                else if (med.isChecked())
+                    i.putExtra("n", 2);
+                else if (marino.isChecked())
+                    i.putExtra("n", 3);
+                setResult(RESULT_OK, i);
+                finish();
+            }
         });
     }
 

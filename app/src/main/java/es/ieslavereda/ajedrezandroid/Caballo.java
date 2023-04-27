@@ -14,10 +14,11 @@ public abstract class Caballo extends Pieza {
     /**
      * Método para mover esta pieza a una nueva coordenada.
      * @param nuevaPosición nueva coordenada dónde mover la pieza.
+     * @param visor
      */
     @Override
-    public void moveTo(Coordenada nuevaPosición){
-        Movimientos.moveTo(this, nuevaPosición);
+    public void moveTo(Coordenada nuevaPosición, VisorPiezasMuertas visor){
+        Movimientos.moveTo(this, nuevaPosición, visor);
     }
 
     /**
