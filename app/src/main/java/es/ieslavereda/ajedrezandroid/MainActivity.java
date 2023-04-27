@@ -54,23 +54,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         });
 
         board.setCellListener(this);
-        int flag = (int)getIntent().getExtras().getSerializable("colorF");
-        if (flag==0){
-            deadBlacks.setBackgroundColor(getColor(R.color.classic_visor));
-            deadWhites.setBackgroundColor(getColor(R.color.classic_visor));
-        }else if (flag==1){
-            board.changeColor(R.color.bosque_black, R.color.bosque_white);
-            deadBlacks.setBackgroundColor(getColor(R.color.bosque_visor));
-            deadWhites.setBackgroundColor(getColor(R.color.bosque_visor));
-        }else if (flag==2){
-            board.changeColor(R.color.medieval_black, R.color.medieval_white);
-            deadBlacks.setBackgroundColor(getColor(R.color.medieval_visor));
-            deadWhites.setBackgroundColor(getColor(R.color.medieval_visor));
-        }else{
-            board.changeColor(R.color.marino_black, R.color.marino_white);
-            deadBlacks.setBackgroundColor(getColor(R.color.marino_visor));
-            deadWhites.setBackgroundColor(getColor(R.color.marino_visor));
-        }
+//        int flag = (int)getIntent().getExtras().getSerializable("colorF");
+//        if (flag==0){
+//            deadBlacks.setBackgroundColor(getColor(R.color.classic_visor));
+//            deadWhites.setBackgroundColor(getColor(R.color.classic_visor));
+//        }else if (flag==1){
+//            board.changeColor(R.color.bosque_black, R.color.bosque_white);
+//            deadBlacks.setBackgroundColor(getColor(R.color.bosque_visor));
+//            deadWhites.setBackgroundColor(getColor(R.color.bosque_visor));
+//        }else if (flag==2){
+//            board.changeColor(R.color.medieval_black, R.color.medieval_white);
+//            deadBlacks.setBackgroundColor(getColor(R.color.medieval_visor));
+//            deadWhites.setBackgroundColor(getColor(R.color.medieval_visor));
+//        }else{
+//            board.changeColor(R.color.marino_black, R.color.marino_white);
+//            deadBlacks.setBackgroundColor(getColor(R.color.marino_visor));
+//            deadWhites.setBackgroundColor(getColor(R.color.marino_visor));
+//        }
         board.updateCells();
     }
 

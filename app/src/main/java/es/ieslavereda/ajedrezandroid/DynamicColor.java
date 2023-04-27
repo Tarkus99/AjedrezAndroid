@@ -6,7 +6,10 @@ public class DynamicColor {
    private int blackCell;
    private static final DynamicColor INSTANCE = new DynamicColor();
 
-   private DynamicColor(){}
+   private DynamicColor(){
+       whiteCell = R.color.white;
+       blackCell = R.color.black;
+   }
 
     public static DynamicColor getInstance(){
        return INSTANCE;

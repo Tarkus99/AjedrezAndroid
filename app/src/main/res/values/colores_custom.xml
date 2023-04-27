@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="classic_visor">#EDB0B0</color>
 
+    <color name="classic_visor">#FFA5A5</color>
     <color name="bosque_white"> #119855</color>
     <color name="bosque_black"> #6d470b </color>
     <color name="bosque_visor">#735628</color>

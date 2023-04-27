@@ -87,15 +87,15 @@ public class Tablero extends TableLayout implements Serializable {
             c.setPieza(null);
         }
     }
-    public void changeColor(int black, int white){
+    public void changeColor(){
         for (Celda c: cellsMap.values()) {
             if (((c.getCoordenada().getCol() - 'A') + (c.getCoordenada().getRow() - 1)) % 2 == 0){
-                c.setColorOriginal(white);
-                c.setColor(white);
+                c.setColorOriginal(DynamicColor.getInstance().getWhiteCell());
+                c.setColor(DynamicColor.getInstance().getWhiteCell());
                 c.updateCellView();
             }else{
-                c.setColorOriginal(black);
-                c.setColor(black);
+                c.setColorOriginal(DynamicColor.getInstance().getBlackCell());
+                c.setColor(DynamicColor.getInstance().getBlackCell());
                 c.updateCellView();
             }
         }

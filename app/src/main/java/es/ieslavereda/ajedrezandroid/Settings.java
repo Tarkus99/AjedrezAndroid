@@ -13,8 +13,6 @@ import java.io.Serializable;
 import java.util.concurrent.CancellationException;
 
 public class Settings extends AppCompatActivity implements View.OnClickListener {
-
-    private RadioButton classic, bosque, med, marino;
     private ImageButton save;
 
     private Tablero tablero;
@@ -23,41 +21,33 @@ public class Settings extends AppCompatActivity implements View.OnClickListener 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
 
-        classic = findViewById(R.id.classic);
-        bosque=findViewById(R.id.bosque);
-        med=findViewById(R.id.medieval);
-        marino=findViewById(R.id.marino);
         save=findViewById(R.id.guardar);
         tablero=findViewById(R.id.tablero3);
 
-
         save.setOnClickListener(view -> {
-            Intent i = new Intent();
-            if (classic.isChecked()){
-                setResult(RESULT_CANCELED);
-                finish();
-            }else {
-                if (bosque.isChecked())
-                    i.putExtra("n", 1);
-                else if (med.isChecked())
-                    i.putExtra("n", 2);
-                else if (marino.isChecked())
-                    i.putExtra("n", 3);
-                setResult(RESULT_OK, i);
-                finish();
-            }
+            finish();
         });
     }
 
     @Override
     public void onClick(View view) {
-        if (view.getId()==R.id.classic)
-            tablero.changeColor(R.color.black, R.color.white);
-        else if(view.getId()==R.id.bosque)
-            tablero.changeColor(R.color.bosque_black, R.color.bosque_white);
-        else if (view.getId()==R.id.medieval)
-            tablero.changeColor(R.color.medieval_black, R.color.medieval_white);
-        else
-            tablero.changeColor(R.color.marino_black, R.color.marino_white);
+        if (view.getId()==R.id.classic) {
+            DynamicColor.getInstance().setWhiteCell(R.color.white);
+            DynamicColor.getInstance().setBlackCell(R.color.black);
+
+            tablero.changeColor();
+        }else if(view.getId()==R.id.bosque) {
+            DynamicColor.getInstance().setWhiteCell(R.color.bosque_white);
+            DynamicColor.getInstance().setBlackCell(R.color.bosque_black);
+            tablero.changeColor();
+        }else if (view.getId()==R.id.medieval) {
+            DynamicColor.getInstance().setWhiteCell(R.color.medieval_white);
+            DynamicColor.getInstance().setBlackCell(R.color.medieval_black);
+            tablero.changeColor();
+        }else {
+            DynamicColor.getInstance().setWhiteCell(R.color.marino_white);
+            DynamicColor.getInstance().setBlackCell(R.color.marino_black);
+            tablero.changeColor();
+        }
     }
 }

@@ -38,9 +38,9 @@ public class Celda extends androidx.appcompat.widget.AppCompatImageView implemen
         this.tablero = tablero;
         this.pieza = null;
         if (((coordenada.getCol() - 'A') + (coordenada.getRow() - 1)) % 2 == 0) {
-            this.colorOriginal = R.color.white;
+            this.colorOriginal = DynamicColor.getInstance().getWhiteCell();
         } else {
-            this.colorOriginal = R.color.black;
+            this.colorOriginal = DynamicColor.getInstance().getBlackCell();
         }
         color = colorOriginal;
 
@@ -133,12 +133,12 @@ public class Celda extends androidx.appcompat.widget.AppCompatImageView implemen
      */
     public void resaltar() {
         if (isEmpty()){
-            if (colorOriginal==R.color.white_cell)
+            if (colorOriginal==DynamicColor.getInstance().getWhiteCell())
                 color=R.color.white_move;
             else
                 color=R.color.black_move;
         }else{
-            if(colorOriginal==R.color.white_cell)
+            if(colorOriginal==DynamicColor.getInstance().getWhiteCell())
                 color=R.color.white_cell_enemy;
             else
                 color=R.color.black_cell_enemy;
@@ -151,7 +151,7 @@ public class Celda extends androidx.appcompat.widget.AppCompatImageView implemen
      * del movimiento de una pieza.
      */
     public void resaltarLastMovement(){
-        if (colorOriginal==R.color.white_cell)
+        if (colorOriginal==DynamicColor.getInstance().getWhiteCell())
             color=R.color.white_lastMove;
         else
             color=R.color.black_lastMove;

@@ -29,22 +29,7 @@ public class Menu extends AppCompatActivity {
         ActivityResultLauncher<Intent> someActivityResultLauncher = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
                 result -> {
-                    if (result.getResultCode() == RESULT_OK){
-                        Intent data = result.getData();
-                        colorFlag = (int) data.getExtras().getSerializable("n");
-                        if (colorFlag==1) {
-                            colorB = R.color.bosque_black;
-                            colorW = R.color.bosque_white;
-                        }else if (colorFlag==2){
-                            colorB = R.color.medieval_black;
-                            colorW = R.color.medieval_white;
-                        }else{
-                            colorB = R.color.marino_black;
-                            colorW = R.color.marino_white;
-                        }
-                        tablero.changeColor(colorB, colorW);
-                        tablero.updateCells();
-                    }
+                        tablero.changeColor();
                 });
 
         setting.setOnClickListener(view -> {
