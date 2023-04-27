@@ -18,8 +18,8 @@ public final class PeonBlanco extends Peon {
     }
 
     @Override
-    public void moveTo(Coordenada nuevaPosición, VisorPiezasMuertas visor){
-        Movimientos.moveTo(this, nuevaPosición, visor);
+    public void moveTo(Coordenada nuevaPosición){
+        Movimientos.moveTo(this, nuevaPosición);
         if (celda.getCoordenada().getRow()==1)
             transform();
     }

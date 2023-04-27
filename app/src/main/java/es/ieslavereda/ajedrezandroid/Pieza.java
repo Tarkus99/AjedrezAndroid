@@ -119,7 +119,7 @@ public abstract class Pieza implements Serializable, Comparable<Pieza> {
      * @param nuevaPosicion nueva coordenada dónde mover la pieza.
      * @param visor
      */
-    public abstract void moveTo(Coordenada nuevaPosicion, VisorPiezasMuertas visor);
+    public abstract void moveTo(Coordenada nuevaPosicion);
 
     /**
      * Método para deshacer un movimiento. útil para verificar el método complexMoves()

@@ -17,8 +17,8 @@ public abstract class Caballo extends Pieza {
      * @param visor
      */
     @Override
-    public void moveTo(Coordenada nuevaPosición, VisorPiezasMuertas visor){
-        Movimientos.moveTo(this, nuevaPosición, visor);
+    public void moveTo(Coordenada nuevaPosición){
+        Movimientos.moveTo(this, nuevaPosición);
     }
 
     /**
