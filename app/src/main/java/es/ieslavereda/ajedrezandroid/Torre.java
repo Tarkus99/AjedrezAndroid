@@ -12,8 +12,8 @@ public abstract class Torre extends Pieza {
     }
 
     @Override
-    public void moveTo(Coordenada nuevaPosición){
-        Movimientos.moveTo(this, nuevaPosición);
+    public void moveTo(Coordenada nuevaPosición, VisorPiezasMuertas visor){
+        Movimientos.moveTo(this, nuevaPosición, visor);
         movido = true;
     }
 

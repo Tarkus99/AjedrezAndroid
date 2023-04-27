@@ -173,14 +173,4 @@ public class Celda extends androidx.appcompat.widget.AppCompatImageView implemen
         color=colorOriginal;
         updateCellView();
     }
-
-//    @Override
-//    public String toString(){
-//        if (isEmpty())
-//            return colorize("   ", color.attribute);
-//        else
-//            return colorize(" ", color.attribute) +
-//                pieza +
-//                colorize(" ", color.attribute);
-//    }
 }

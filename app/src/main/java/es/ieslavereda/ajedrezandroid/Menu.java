@@ -7,46 +7,54 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
-
-import java.util.Map;
+import android.widget.ImageButton;
+import android.widget.LinearLayout;
 
 public class Menu extends AppCompatActivity {
 
     private Tablero tablero;
-    private Button jugar, setting;
+    private ImageButton jugar, setting;
+    int colorW, colorB;
+    int colorFlag;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
 
-        setting=findViewById(R.id.setting);
-        jugar=findViewById(R.id.jugar);
+        colorFlag=0;
+        setting=findViewById(R.id.settings);
+        jugar=findViewById(R.id.play);
         tablero = findViewById(R.id.tablero2);
 
         ActivityResultLauncher<Intent> someActivityResultLauncher = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
                 result -> {
                     if (result.getResultCode() == RESULT_OK){
-                        int a, b;
                         Intent data = result.getData();
-                        int x = (int) data.getExtras().getSerializable("n");
-                        if (x==1) {
-                            a = R.color.bosque_black;
-                            b = R.color.bosque_white;
-                        }else if (x==2){
-                            a = R.color.medieval_black;
-                            b = R.color.medieval_white;
+                        colorFlag = (int) data.getExtras().getSerializable("n");
+                        if (colorFlag==1) {
+                            colorB = R.color.bosque_black;
+                            colorW = R.color.bosque_white;
+                        }else if (colorFlag==2){
+                            colorB = R.color.medieval_black;
+                            colorW = R.color.medieval_white;
                         }else{
-                            a = R.color.marino_black;
-                            b = R.color.marino_white;
+                            colorB = R.color.marino_black;
+                            colorW = R.color.marino_white;
                         }
-                        tablero.changeColor(a, b);
+                        tablero.changeColor(colorB, colorW);
                         tablero.updateCells();
                     }
                 });
 
         setting.setOnClickListener(view -> {
             Intent intent = new Intent(this, Settings.class);
+            someActivityResultLauncher.launch(intent);
+        });
+
+        jugar.setOnClickListener(view -> {
+            Intent intent = new Intent(this, MainActivity.class);
+            intent.putExtra("colorF", colorFlag);
             someActivityResultLauncher.launch(intent);
         });
 
